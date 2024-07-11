@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <section class="contenedor">
+        <h1>Vamos a validar tus datos</h1>
+        <div >
+            <form class="formulario" action="">
+                <label for="nombre">ingresa tu nombre: </label>
+                <input type="text" name="nombre" id="nombre" placeholder="nombre" autocomplete="off">
+
+                <label for="apellido">ingresa tu apellido: </label>
+                <input type="text" id="apellido" placeholder="apellido" autocomplete="off">
+
+                <label for="direc">direccion: </label>
+                <input type="text" id="direc" placeholder="direccion" autocomplete="off">
+
+                <label for="tel">telefono: </label>
+                <input type="number" id="tel" placeholder="telefono" autocomplete="off">
+
+                <label for="tipo_doc">Tipo de documento: </label>
+                <select class=" input_ingresar" name="" id="tipo_doc" >
+                    <option disabled selected value="0">Selecciona el tipo de documento</option>
+                    <option value="1">Cedula de ciudadania</option>
+                    <option value="2">Tarjeta de identidad</option>
+                    <option value="3">Cedula extranjeria</option>
+                </select>
+                <label  for="num_doc">ingresa el numero de documento:</label>
+                <input type="number" id="num_doc" placeholder="numero de documento" autocomplete="off">
+                
+                <div>
+                    <input type="checkbox" id="politicas">
+                    <label for="politicas">politicas de uso </label>
+                </div>
+                <button type="submit" id="enviar">Enviar</button>
+                
+            </form>
+        </div>
+    </section>
+    <script src="app.js"></script>
+</body>
+</html>
