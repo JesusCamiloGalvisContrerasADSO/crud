@@ -29,7 +29,6 @@ const validar = (event) => {
 // keyup -- cuando la oprimo 
 
 
-
     }
     if( apellido.value === ""){
         // alert("el campo no puede estar vacio")
@@ -56,36 +55,46 @@ const validar = (event) => {
     }
 }
 
-$formulario.addEventListener("submit", validar)
+$formulario.addEventListener("submit", validar)  //boton, al dar click haga la funcion
 
-const remover = (e, input) => {
-    if(input.value != ""){
-        input.classList.add("correcto")
+const remover = (input, validacion) => {
+    if(validacion.test(input.value)){
+        input.classList.add("correcto");
+        input.classList.remove("error");
+    }else{
+        input.classList.remove("correcto");
+        input.classList.add("error");
     }
 }
 
-nombre.addEventListener("keyup",(event) => {
-    remover(event, nombre)
+nombre.addEventListener("keyup",() => {
+    remover(nombre, ValidarNombre)
 })
 
 apellido.addEventListener("keyup", (event) =>{
-    remover(event, apellido)
+    remover(apellido, ValidarNombre)
 })
 
 direccion.addEventListener("keyup", (event) =>{
-    remover(event, direccion)
+    remover(direccion, ValidarDireccion)
 })
 
 telefono.addEventListener("keyup", (event)=>{
-    remover(event, telefono)
+    remover( telefono, ValidarNumero)
 })
 
-tipo_doc.addEventListener("change", (event) =>{
-    remover(event, tipo_doc)
+tipo_doc.addEventListener("change", () =>{
+    if (tipo_doc.value !== "0") {
+        tipo_doc.classList.remove("error");
+        tipo_doc.classList.add("correcto");
+    } else {
+        tipo_doc.classList.remove("correcto");
+        tipo_doc.classList.add("error");
+    }
 })
 
 documento.addEventListener("keyup", (event) =>{
-    remover(event, documento)
+    remover(documento, ValidarDocumento)
 })
 
 // enviar.setAttribute("disabled");
@@ -93,13 +102,11 @@ enviar.setAttribute('disabled', '');
 
 
 politicas.addEventListener("change", () => {
-    if(politicas){
-
-    }
-    enviar.removeAttribute("disabled","");
-    politicas.addEventListener("change", () => {
+    if(politicas.checked){
+        enviar.removeAttribute("disabled","");
+    }else{
         enviar.setAttribute("disabled","");
-    })
+    }
 })
 
 // function () {
@@ -109,3 +116,17 @@ politicas.addEventListener("change", () => {
 // }
 
 console.log($formulario)
+
+
+
+// expreciones regulares para validar cada campo 
+
+// validar nombre y apellido 
+
+
+const ValidarNombre = /^[a-zA-Z]{4,}$/;
+
+const ValidarDireccion = /^[a-zA-Z0-9\s,.'-]{3,}$/;
+
+const ValidarNumero = /^[0-9]{10}$/;  // Exactamente 10 dígitos
+const ValidarDocumento = /^[0-9]{8,10}$/;  // Entre 8 y 10 dígitos
