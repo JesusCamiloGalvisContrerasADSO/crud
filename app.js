@@ -100,6 +100,10 @@ documento.addEventListener("keyup", (event) =>{
 // enviar.setAttribute("disabled");
 enviar.setAttribute('disabled', '');
 
+// enviar.addEventListener("DOMContentLoaded", (event) => {
+//     console.log("DOM fully loaded and parsed");
+// });
+
 
 politicas.addEventListener("change", () => {
     if(politicas.checked){
@@ -130,3 +134,51 @@ const ValidarDireccion = /^[a-zA-Z0-9\s,.'-]{3,}$/;
 
 const ValidarNumero = /^[0-9]{10}$/;  // Exactamente 10 dígitos
 const ValidarDocumento = /^[0-9]{8,10}$/;  // Entre 8 y 10 dígitos
+
+
+
+
+
+const numero = function(event) {
+    if (event.keyCode < 48 || event.keyCode > 57) {
+        event.preventDefault(); // Esto evitará que se ingrese el valor
+    }
+}
+
+documento.addEventListener("keypress", numero);
+telefono.addEventListener("keypress", numero)
+
+// const letras = function(event){
+//     if (event.keyCode < 65 || event.keyCode > 122 ){
+//         event.preventDefault();
+//     }
+// }
+const letras = function(event, elemento){
+    // console.log(event.value)
+    let letras = /^[A-Za-zÀ-ÿ\s]*$/
+    if (!letras.test(event.key)) {
+        event.preventDefault();
+    }
+}
+
+nombre.addEventListener("keypress", (event)=>{
+    letras(event, nombre)
+});
+apellido.addEventListener("keypress", (event)=>{
+    letras(event, apellido)
+})
+
+
+documento.addEventListener("keypress", function(event){
+    console.log("keypress", event)
+    console.log(this.value)
+    console.log(event.keyCode)
+    
+})
+
+// keydown -- cualdo la oprimimos cuando ecribo tecla por tecla, toma cada numero que entra al campo
+// keypress -- cuando la mantenemos presionada
+// keyup -- cuando la suelto, si se mantiene la tecla oprimida toma el ultimo elemento al soltar
+
+
+// addEventListener("DOMContentLoaded", )
