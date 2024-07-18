@@ -8,6 +8,7 @@ const tipo_doc = document.querySelector("#tipo_doc");
 const documento = document.querySelector("#num_doc");
 const politicas = document.querySelector("#politicas");
 const enviar = document.querySelector("#enviar");
+const email = document.querySelector("#email");
 
 function quitarCalse (valor) {
     valor.classList.remove("error");
@@ -53,37 +54,41 @@ const validar = (event) => {
         documento.focus()
         documento.classList.add("error")
     }
-}
 
-$formulario.addEventListener("submit", validar)  //boton, al dar click haga la funcion
-
-const remover = (input, validacion) => {
-    if(validacion.test(input.value)){
-        input.classList.add("correcto");
-        input.classList.remove("error");
-    }else{
-        input.classList.remove("correcto");
-        input.classList.add("error");
+    if (email.value === "") {
+        email.focus();
+        email.classList.add("error");
     }
 }
 
-nombre.addEventListener("keyup",() => {
-    remover(nombre, ValidarNombre)
-})
+$formulario.addEventListener("submit", validar)  //boton, al dar click haga la funcion
+const remover = (input, validacion) => {
+    if (!input.value == "") {
+        input.classList.add("correcto");
+        input.classList.remove("error");
+    } else {
+        input.classList.remove("correcto");
+        input.classList.add("error");
+    }
+};
 
-apellido.addEventListener("keyup", (event) =>{
-    remover(apellido, ValidarNombre)
-})
+nombre.addEventListener("keyup", () => {
+    remover(nombre);
+});
 
-direccion.addEventListener("keyup", (event) =>{
-    remover(direccion, ValidarDireccion)
-})
+apellido.addEventListener("keyup", () => {
+    remover(apellido);
+});
 
-telefono.addEventListener("keyup", (event)=>{
-    remover( telefono, ValidarNumero)
-})
+direccion.addEventListener("keyup", () => {
+    remover(direccion);
+});
 
-tipo_doc.addEventListener("change", () =>{
+telefono.addEventListener("keyup", () => {
+    remover(telefono);
+});
+
+tipo_doc.addEventListener("change", () => {
     if (tipo_doc.value !== "0") {
         tipo_doc.classList.remove("error");
         tipo_doc.classList.add("correcto");
@@ -91,11 +96,16 @@ tipo_doc.addEventListener("change", () =>{
         tipo_doc.classList.remove("correcto");
         tipo_doc.classList.add("error");
     }
-})
+});
 
-documento.addEventListener("keyup", (event) =>{
-    remover(documento, ValidarDocumento)
-})
+documento.addEventListener("keyup", () => {
+    remover(documento);
+});
+
+email.addEventListener("keyup", () => {
+    remover(email);
+});
+
 
 // enviar.setAttribute("disabled");
 enviar.setAttribute('disabled', '');
@@ -127,13 +137,6 @@ console.log($formulario)
 
 // validar nombre y apellido 
 
-
-const ValidarNombre = /^[a-zA-Z]{4,}$/;
-
-const ValidarDireccion = /^[a-zA-Z0-9\s,.'-]{3,}$/;
-
-const ValidarNumero = /^[0-9]{10}$/;  // Exactamente 10 dígitos
-const ValidarDocumento = /^[0-9]{8,10}$/;  // Entre 8 y 10 dígitos
 
 
 
@@ -176,9 +179,26 @@ documento.addEventListener("keypress", function(event){
     
 })
 
+email.addEventListener("keypress", (event) => {
+    const ValidarEmail = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
+    const inputValue = email.value + event.key; // Combina el valor actual con la tecla presionada
+    if (!ValidarEmail.test(inputValue)) {
+        event.preventDefault();
+    }
+});
+
+
 // keydown -- cualdo la oprimimos cuando ecribo tecla por tecla, toma cada numero que entra al campo
 // keypress -- cuando la mantenemos presionada
 // keyup -- cuando la suelto, si se mantiene la tecla oprimida toma el ultimo elemento al soltar
 
 
 // addEventListener("DOMContentLoaded", )
+
+
+
+// const ValidarEmail = /^[(a-zA-Z)@(.com|.com.co|.edu.co)]*$/
+
+
+
+// ('^(.+)@(\\S
