@@ -102,16 +102,18 @@ documento.addEventListener("keyup", () => {
     remover(documento);
 });
 
-email.addEventListener("keyup", () => {
-    remover(email);
-});
+// email.addEventListener("keyup", () => {
+//     remover(email);
+// });
 
 
 // enviar.setAttribute("disabled");
 enviar.setAttribute('disabled', '');
 
-// enviar.addEventListener("DOMContentLoaded", (event) => {
-//     console.log("DOM fully loaded and parsed");
+// addEventListener("DOMContentLoaded", (event) => {
+    // if(!politicas.checked){
+    //     enviar.setAttribute('disabled', '');
+    // }
 // });
 
 
@@ -179,13 +181,36 @@ documento.addEventListener("keypress", function(event){
     
 })
 
-email.addEventListener("keypress", (event) => {
-    const ValidarEmail = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
-    const inputValue = email.value + event.key; // Combina el valor actual con la tecla presionada
-    if (!ValidarEmail.test(inputValue)) {
-        event.preventDefault();
+
+
+
+// 
+email.addEventListener('input', function() {
+    campo = event.target;    
+    valido = document.getElementById('emailOK');
+        
+    emailRegex = /^[-\w.%+]{1,64}@(?:[A-Z0-9-]{1,63}\.){1,125}[A-Z]{2,63}$/i;
+    //Se muestra un texto a modo de ejemplo, luego va a ser un icono
+    if (emailRegex.test(campo.value)) {
+        email.classList.remove("error");
+        email.classList.add("correcto");
+    } else {
+        email.classList.remove("correcto");
+        email.classList.add("error");
     }
 });
+
+
+
+
+
+// email.addEventListener("keypress", (event) => {
+//     const ValidarEmail = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
+//     const inputValue = email.value + event.key; // Combina el valor actual con la tecla presionada
+//     if (!ValidarEmail.test(inputValue)) {
+//         event.preventDefault();
+//     }
+// });
 
 
 // keydown -- cualdo la oprimimos cuando ecribo tecla por tecla, toma cada numero que entra al campo
