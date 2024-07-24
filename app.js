@@ -1,3 +1,10 @@
+import correo  from "./modulos/modulo_correo.js";
+import letras from "./modulos/modulo_letras.js";
+import numero from "./modulos/modulo_numero.js";
+// import validar from "./modulos/modulo_validar.js";
+import remover from "./modulos/modulo_remover.js";
+
+
 const $formulario = document.querySelector("form");
 
 const nombre = document.querySelector("#nombre");
@@ -61,16 +68,9 @@ const validar = (event) => {
     }
 }
 
+
 $formulario.addEventListener("submit", validar)  //boton, al dar click haga la funcion
-const remover = (input, validacion) => {
-    if (!input.value == "") {
-        input.classList.add("correcto");
-        input.classList.remove("error");
-    } else {
-        input.classList.remove("correcto");
-        input.classList.add("error");
-    }
-};
+
 
 nombre.addEventListener("keyup", () => {
     remover(nombre);
@@ -141,30 +141,9 @@ console.log($formulario)
 
 
 
-
-
-
-const numero = function(event) {
-    if (event.keyCode < 48 || event.keyCode > 57) {
-        event.preventDefault(); // Esto evitará que se ingrese el valor
-    }
-}
-
 documento.addEventListener("keypress", numero);
 telefono.addEventListener("keypress", numero)
 
-// const letras = function(event){
-//     if (event.keyCode < 65 || event.keyCode > 122 ){
-//         event.preventDefault();
-//     }
-// }
-const letras = function(event, elemento){
-    // console.log(event.value)
-    let letras = /^[A-Za-zÀ-ÿ\s]*$/
-    if (!letras.test(event.key)) {
-        event.preventDefault();
-    }
-}
 
 nombre.addEventListener("keypress", (event)=>{
     letras(event, nombre)
@@ -182,23 +161,29 @@ documento.addEventListener("keypress", function(event){
 })
 
 
+email.addEventListener('input', (event) => {
+    correo(event, email)
+})
+
+
+// --------------------------
 
 
 // 
-email.addEventListener('input', function() {
-    campo = event.target;    
-    valido = document.getElementById('emailOK');
+// email.addEventListener('input', function() {
+//     campo = event.target;    
+//     valido = document.getElementById('emailOK');
         
-    emailRegex = /^[-\w.%+]{1,64}@(?:[A-Z0-9-]{1,63}\.){1,125}[A-Z]{2,63}$/i;
-    //Se muestra un texto a modo de ejemplo, luego va a ser un icono
-    if (emailRegex.test(campo.value)) {
-        email.classList.remove("error");
-        email.classList.add("correcto");
-    } else {
-        email.classList.remove("correcto");
-        email.classList.add("error");
-    }
-});
+//     emailRegex = /^[-\w.%+]{1,64}@(?:[A-Z0-9-]{1,63}\.){1,125}[A-Z]{2,63}$/i;
+//     //Se muestra un texto a modo de ejemplo, luego va a ser un icono
+//     if (emailRegex.test(campo.value)) {
+//         email.classList.remove("error");
+//         email.classList.add("correcto");
+//     } else {
+//         email.classList.remove("correcto");
+//         email.classList.add("error");
+//     }
+// });
 
 
 
