@@ -1,0 +1,14 @@
+{
+  "users":[
+    {
+    "id": "",
+    "name": "",
+    "apellido": "",
+    "direccion": "",
+    "email": "",
+    "tipo_doc": "",
+    "num_doc": ""
+    }
+
+]
+}

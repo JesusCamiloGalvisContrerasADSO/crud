@@ -1,3 +1,4 @@
+import is_valid from "./modulos/is_valid.js";
 import correo  from "./modulos/modulo_correo.js";
 import letras from "./modulos/modulo_letras.js";
 import numero from "./modulos/modulo_numero.js";
@@ -16,6 +17,12 @@ const documento = document.querySelector("#num_doc");
 const politicas = document.querySelector("#politicas");
 const enviar = document.querySelector("#enviar");
 const email = document.querySelector("#email");
+
+const Todos_required = document.querySelectorAll("form > [required]");
+
+// console.log(Todos_required)
+
+// Todos_required.forEach("input", )
 
 function quitarCalse (valor) {
     valor.classList.remove("error");
@@ -69,7 +76,9 @@ const validar = (event) => {
 }
 
 
-$formulario.addEventListener("submit", validar)  //boton, al dar click haga la funcion
+$formulario.addEventListener("submit", (event)=>{
+    is_valid(event, "form > [required]")
+})  //boton, al dar click haga la funcion
 
 
 nombre.addEventListener("keyup", () => {
@@ -131,7 +140,7 @@ politicas.addEventListener("change", () => {
 //     }
 // }
 
-console.log($formulario)
+// console.log($formulario)
 
 
 

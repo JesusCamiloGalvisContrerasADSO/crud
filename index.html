@@ -12,29 +12,29 @@
         <div >
             <form class="formulario" action="" novalidate>
                 <label for="nombre">ingresa tu nombre: </label>
-                <input type="text" name="nombre" id="nombre" placeholder="nombre" autocomplete="off">
+                <input type="text" name="nombre" id="nombre" placeholder="nombre" autocomplete="off" required>
 
                 <label for="apellido">ingresa tu apellido: </label>
-                <input type="text" id="apellido" placeholder="apellido" autocomplete="off">
+                <input type="text" id="apellido" placeholder="apellido" autocomplete="off" required>
 
                 <label for="direc">direccion: </label>
-                <input type="text" id="direc" placeholder="direccion" autocomplete="off">
+                <input type="text" id="direc" placeholder="direccion" autocomplete="off" required>
 
                 <label for="tel">telefono: </label>
-                <input type="" id="tel" placeholder="telefono" autocomplete="off">
+                <input type="" id="tel" placeholder="telefono" autocomplete="off" required>
 
                 <label for="tel">Email: </label>
-                <input type="email" id="email" placeholder="email" autocomplete="off">
+                <input type="email" id="email" placeholder="email" autocomplete="off" required>
                 
                 <label for="tipo_doc">Tipo de documento: </label>
-                <select class=" input_ingresar" name="" id="tipo_doc" >
+                <select class=" input_ingresar" name="" id="tipo_doc" required >
                     <option disabled selected value="0">Selecciona el tipo de documento</option>
                     <option value="1">Cedula de ciudadania</option>
                     <option value="2">Tarjeta de identidad</option>
                     <option value="3">Cedula extranjeria</option>
                 </select>
                 <label  for="num_doc">ingresa el numero de documento:</label>
-                <input type="" id="num_doc" placeholder="numero de documento" autocomplete="off" >
+                <input type="" id="num_doc" placeholder="numero de documento" autocomplete="off" required>
                 
                 <div>
                     <input type="checkbox" id="politicas">
