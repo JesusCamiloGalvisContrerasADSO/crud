@@ -21,13 +21,13 @@
                 <input type="text" id="direc" placeholder="direccion" autocomplete="off" required>
 
                 <label for="tel">telefono: </label>
-                <input type="" id="tel" placeholder="telefono" autocomplete="off" required>
+                <input type="number" id="tel" placeholder="telefono" autocomplete="off" required>
 
                 <label for="tel">Email: </label>
                 <input type="email" id="email" placeholder="email" autocomplete="off" required>
                 
                 <label for="tipo_doc">Tipo de documento: </label>
-                <select class=" input_ingresar" name="" id="tipo_doc" required >
+                <select class=" input_ingresar" id="tipo_doc" required >
                     <option disabled selected value="0">Selecciona el tipo de documento</option>
                     <option value="1">Cedula de ciudadania</option>
                     <option value="2">Tarjeta de identidad</option>
@@ -43,6 +43,8 @@
                 <button type="submit" id="enviar">Enviar</button>
                 
             </form>
+
+            <a href="agregar_tipoDoc.html">Agregar doc</a>
         </div>
     </section>
     <script src="app.js" type="module"></script>

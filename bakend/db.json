@@ -1,14 +1,37 @@
 {
-  "users":[
+  "users": [
     {
-    "id": "",
-    "name": "",
-    "apellido": "",
-    "direccion": "",
-    "email": "",
-    "tipo_doc": "",
-    "num_doc": ""
+      "id": "4189",
+      "nombre": "Gottfried",
+      "apellido": "Leibniz",
+      "direccion": "Erika-Mann-Straße 33",
+      "telefono": "54",
+      "tipodoc": "1",
+      "numerodoc": "54548"
+    },
+    {
+      "id": "f178",
+      "nombre": "João",
+      "apellido": "Souza Silva",
+      "direccion": "Av. dos Andradas, 3000",
+      "telefono": "55555",
+      "tipodoc": "2",
+      "numerodoc": "555555555"
+    },
+    {
+      "id": "53b5",
+      "nombre": "João",
+      "apellido": "Souza Silva",
+      "direccion": "Av. dos Andradas, 3000",
+      "telefono": "3121286800",
+      "tipodoc": "2",
+      "numerodoc": "2572547"
     }
-
-]
+  ],
+  "documentos": [
+    {
+      "id": "7498",
+      "nombre": "cvcv"
+    }
+  ]
 }

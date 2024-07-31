@@ -1,9 +1,10 @@
-import is_valid from "./modulos/is_valid.js";
 import correo  from "./modulos/modulo_correo.js";
 import letras from "./modulos/modulo_letras.js";
 import numero from "./modulos/modulo_numero.js";
 // import validar from "./modulos/modulo_validar.js";
 import remover from "./modulos/modulo_remover.js";
+import is_valid from "./modulos/is_valid.js";
+
 
 
 const $formulario = document.querySelector("form");
@@ -30,7 +31,7 @@ function quitarCalse (valor) {
 
 
 const validar = (event) => {
-    event.preventDefault()
+    // event.preventDefault()
     console.log(nombre.value);
     if (nombre.value === "") {
         // alert("el campo no puede estar vacio")
@@ -77,8 +78,35 @@ const validar = (event) => {
 
 
 $formulario.addEventListener("submit", (event)=>{
-    is_valid(event, "form > [required]")
-})  //boton, al dar click haga la funcion
+    let responde = is_valid(event, "form [required]")
+    console.log(responde)
+
+    const data = {
+        nombre: nombre.value,
+        apellido: apellido.value,
+        direccion: direccion.value,
+        telefono: telefono.value,
+        tipodoc: tipo_doc.value,
+        numerodoc: documento.value,
+    }
+    if(responde){
+        fetch('http://localhost:3000/users',{
+            method: 'POST',
+            body: JSON.stringify(data),
+            headers: {
+            'Content-Type': 'application/json;charset=utf-8'
+            }
+        })
+        .then(() =>{
+            alert('sus datos fueron guardados correctamente')
+        })
+        .catch(() =>{
+            alert('error a cargar sus datos')
+        })
+    }
+
+    console.log(data)
+})  
 
 
 nombre.addEventListener("keyup", () => {
@@ -221,3 +249,4 @@ email.addEventListener('input', (event) => {
 
 
 // ('^(.+)@(\\S
+
