@@ -28,10 +28,7 @@
                 
                 <label for="tipo_doc">Tipo de documento: </label>
                 <select class=" input_ingresar" id="tipo_doc" required >
-                    <option disabled selected value="0">Selecciona el tipo de documento</option>
-                    <option value="1">Cedula de ciudadania</option>
-                    <option value="2">Tarjeta de identidad</option>
-                    <option value="3">Cedula extranjeria</option>
+                    
                 </select>
                 <label  for="num_doc">ingresa el numero de documento:</label>
                 <input type="" id="num_doc" placeholder="numero de documento" autocomplete="off" required>
@@ -44,8 +41,27 @@
                 
             </form>
 
-            <a href="agregar_tipoDoc.html">Agregar doc</a>
+            <a  href="agregar_tipoDoc.html">Agregar doc</a>
         </div>
+    </section>
+
+    <section>
+        <table  border="">
+            <thead>
+                <tr>
+                    <th>Nombre</th>
+                    <th>Apellido</th>
+                    <th>Direccion</th>
+                    <th>Telefono</th>
+                    <th>Email</th>
+                    <th>Tipo de documento</th>
+                    <th>numero de documento</th>
+                </tr>
+            </thead>
+            <tbody id="tabla">
+                
+            </tbody>
+        </table>
     </section>
     <script src="app.js" type="module"></script>
 </body>

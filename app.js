@@ -4,6 +4,7 @@ import numero from "./modulos/modulo_numero.js";
 // import validar from "./modulos/modulo_validar.js";
 import remover from "./modulos/modulo_remover.js";
 import is_valid from "./modulos/is_valid.js";
+import solicitud from "./modulos/ajax.js";
 
 
 
@@ -29,52 +30,73 @@ function quitarCalse (valor) {
     valor.classList.remove("error");
 }
 
+const documentos = () =>{
+    const $fragmento = document.createDocumentFragment()
+fetch('http://localhost:3000/documentos')
+    .then((response)=>{
+        return response.json()
+    })
+    .then((mostrar)=>{
+        let option = document.createElement("option");
 
-const validar = (event) => {
-    // event.preventDefault()
-    console.log(nombre.value);
-    if (nombre.value === "") {
-        // alert("el campo no puede estar vacio")
-        nombre.focus()
-        nombre.classList.add("error")
-        // nombre.addEventListener.remove("error")
+            option.value = ''
+            option.textContent = 'seleccione...'
+            option.setAttribute('disabled', '')
+            option.setAttribute('selected', '')
+            $fragmento.appendChild(option)
 
+        mostrar.forEach(element => {
+            
+                console.log(element)
+                let option = document.createElement("option");
+    
+                option.value = element.id
+                option.textContent = element.nombre
+    
+                $fragmento.appendChild(option)
+            
 
-// keydown -- cuando ecribo tecla por tecla 
-// keypress -- cuando la presiono
-// keyup -- cuando la oprimo 
-
-
-    }
-    if( apellido.value === ""){
-        // alert("el campo no puede estar vacio")
-        apellido.focus()
-        apellido.classList.add("error")
-
-    }if(tipo_doc.value === "0"){
-        // alert("el campo no puede estar vacio")
-        tipo_doc.focus()
-        tipo_doc.classList.add("error")
-    }
-    if(direccion.value === ""){
-        // alert("el campo no puede estar vacio")
-        direccion.focus()
-        direccion.classList.add("error")
-    }if(telefono.value === ""){
-        // alert("el campo no puede estar vacio")
-        telefono.focus()
-        telefono.classList.add("error")
-    }if(documento.value === ""){
-        // alert("el campo no puede estar vacio")
-        documento.focus()
-        documento.classList.add("error")
-    }
-
-    if (email.value === "") {
-        email.focus();
-        email.classList.add("error");
-    }
+        });
+        tipo_doc.appendChild($fragmento)
+    })
 }
+
+
+const listar = () =>{
+    const $fragmento = document.createDocumentFragment();
+    const tabla = document.querySelector('#tabla')
+    let data = solicitud('users')
+            .then((users) => {
+            console.log(users);
+            users.forEach(element => {
+                let tr = document.createElement("tr");
+                for (let i = 0; i < element.length; i++) {
+                    let td = document.createElement("td");
+                    td.textContent = element.name;
+                    $fragmento.appendChild(td);
+                }
+                tr.appendChild(td);
+            });
+            tabla.appendChild(tr);
+            });
+}
+
+enviar.setAttribute('disabled', '');
+
+addEventListener("DOMContentLoaded", (event) => {
+
+    documentos()
+    listar()
+
+    politicas.addEventListener("change", () => {
+    if(politicas.checked){
+        enviar.removeAttribute("disabled","");
+    }else{
+        enviar.setAttribute("disabled","");
+    }
+})
+});
+
 
 
 $formulario.addEventListener("submit", (event)=>{
@@ -85,6 +107,7 @@ $formulario.addEventListener("submit", (event)=>{
         nombre: nombre.value,
         apellido: apellido.value,
         direccion: direccion.value,
+        email: email.value,
         telefono: telefono.value,
         tipodoc: tipo_doc.value,
         numerodoc: documento.value,
@@ -99,13 +122,22 @@ $formulario.addEventListener("submit", (event)=>{
         })
         .then(() =>{
             alert('sus datos fueron guardados correctamente')
+            nombre.value = ""
+            apellido.value = ""
+            direccion.value = ""
+            telefono.value = "" 
+            email.value = ""
+            tipo_doc.value = 0
+            documento.value = ""
+            politicas.value = false
+
         })
         .catch(() =>{
             alert('error a cargar sus datos')
         })
     }
 
-    console.log(data)
+    
 })  
 
 
@@ -145,22 +177,16 @@ documento.addEventListener("keyup", () => {
 
 
 // enviar.setAttribute("disabled");
-enviar.setAttribute('disabled', '');
-
-// addEventListener("DOMContentLoaded", (event) => {
-    // if(!politicas.checked){
-    //     enviar.setAttribute('disabled', '');
-    // }
-// });
 
 
-politicas.addEventListener("change", () => {
-    if(politicas.checked){
-        enviar.removeAttribute("disabled","");
-    }else{
-        enviar.setAttribute("disabled","");
-    }
-})
+
+// politicas.addEventListener("change", () => {
+//     if(politicas.checked){
+//         enviar.removeAttribute("disabled","");
+//     }else{
+//         enviar.setAttribute("disabled","");
+//     }
+// })
 
 // function () {
 //     if(nombre.value != ""){
@@ -190,12 +216,12 @@ apellido.addEventListener("keypress", (event)=>{
 })
 
 
-documento.addEventListener("keypress", function(event){
-    console.log("keypress", event)
-    console.log(this.value)
-    console.log(event.keyCode)
+// documento.addEventListener("keypress", function(event){
+//     console.log("keypress", event)
+//     console.log(this.value)
+//     console.log(event.keyCode)
     
-})
+// })
 
 
 email.addEventListener('input', (event) => {
@@ -249,4 +275,3 @@ email.addEventListener('input', (event) => {
 
 
 // ('^(.+)@(\\S
-
