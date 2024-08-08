@@ -19,6 +19,10 @@ const documento = document.querySelector("#num_doc");
 const politicas = document.querySelector("#politicas");
 const enviar = document.querySelector("#enviar");
 const email = document.querySelector("#email");
+const tbusers = document.querySelector("#tb_users").content;
+const $fragmento = document.createDocumentFragment();
+const tbody = document.querySelector("tbody");
+console.log(tbusers)
 
 const Todos_required = document.querySelectorAll("form > [required]");
 
@@ -40,7 +44,7 @@ fetch('http://localhost:3000/documentos')
         let option = document.createElement("option");
 
             option.value = ''
-            option.textContent = 'seleccione...'
+            option.textContent = 'Seleccione...'
             option.setAttribute('disabled', '')
             option.setAttribute('selected', '')
             $fragmento.appendChild(option)
@@ -62,24 +66,50 @@ fetch('http://localhost:3000/documentos')
 }
 
 
-const listar = () =>{
-    const $fragmento = document.createDocumentFragment();
-    const tabla = document.querySelector('#tabla')
-    let data = solicitud('users')
-            .then((users) => {
-            console.log(users);
-            users.forEach(element => {
-                let tr = document.createElement("tr");
-                for (let i = 0; i < element.length; i++) {
-                    let td = document.createElement("td");
-                    td.textContent = element.name;
-                    $fragmento.appendChild(td);
-                }
-                tr.appendChild(td);
-            });
-            tabla.appendChild(tr);
-            });
+
+const listar = async () =>{
+
+    let data = await solicitud('users')
+
+    data.forEach(element =>{
+        tbusers.querySelector(".nombre").textContent = element.nombre
+        tbusers.querySelector(".apellido").textContent = element.apellido
+        tbusers.querySelector(".telefono").textContent = element.telefono
+        tbusers.querySelector(".direccion").textContent = element.direccion
+        tbusers.querySelector(".email").textContent = element.email
+        tbusers.querySelector(".tipo").textContent = element.tipodoc
+        tbusers.querySelector(".documento").textContent = element.numerodoc
+        
+        const clone = document.importNode(tbusers, true);
+
+        $fragmento.appendChild(clone);
+    })
+    tbody.appendChild($fragmento)
+    
 }
+
+const crearfilas = (data) =>{
+    const tr = tbody.insertRow(-1);
+
+
+    const tdNombre = tr.insertCell(0);
+    const tdApellido = tr.insertCell(1);
+    const tdTelefono = tr.insertCell(2);
+    const tdDireccion = tr.insertCell(3);
+    const tdEmail = tr.insertCell(4);
+    const tdTipoDoc = tr.insertCell(5);
+    const tdDocumento = tr.insertCell(6);
+
+    tdNombre.textContent = data.nombre;
+    tdApellido.textContent = data.apellido;
+    tdTelefono.textContent = data.telefono;
+    tdDireccion.textContent = data.direccion;
+    tdEmail.textContent = data.email;
+    tdTipoDoc.textContent = data.tipodoc;
+    tdDocumento.textContent = data.numerodoc;
+
+}
+
 
 enviar.setAttribute('disabled', '');
 
@@ -89,7 +119,7 @@ addEventListener("DOMContentLoaded", (event) => {
     listar()
 
     politicas.addEventListener("change", () => {
-    if(politicas.checked){
+    if(politicas.checked ){
         enviar.removeAttribute("disabled","");
     }else{
         enviar.setAttribute("disabled","");
@@ -120,17 +150,19 @@ $formulario.addEventListener("submit", (event)=>{
             'Content-Type': 'application/json;charset=utf-8'
             }
         })
-        .then(() =>{
+        .then((response)=>response.json())
+        .then((json) =>{
             alert('sus datos fueron guardados correctamente')
             nombre.value = ""
             apellido.value = ""
             direccion.value = ""
             telefono.value = "" 
             email.value = ""
-            tipo_doc.value = 0
+            tipo_doc.value = ""
             documento.value = ""
-            politicas.value = false
+            politicas.checked = false
 
+            crearfilas(json)
         })
         .catch(() =>{
             alert('error a cargar sus datos')

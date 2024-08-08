@@ -7,62 +7,80 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <section class="contenedor">
-        <h1>Vamos a validar tus datos</h1>
-        <div >
-            <form class="formulario" action="" novalidate>
-                <label for="nombre">ingresa tu nombre: </label>
-                <input type="text" name="nombre" id="nombre" placeholder="nombre" autocomplete="off" required>
-
-                <label for="apellido">ingresa tu apellido: </label>
-                <input type="text" id="apellido" placeholder="apellido" autocomplete="off" required>
-
-                <label for="direc">direccion: </label>
-                <input type="text" id="direc" placeholder="direccion" autocomplete="off" required>
-
-                <label for="tel">telefono: </label>
-                <input type="number" id="tel" placeholder="telefono" autocomplete="off" required>
-
-                <label for="tel">Email: </label>
-                <input type="email" id="email" placeholder="email" autocomplete="off" required>
-                
-                <label for="tipo_doc">Tipo de documento: </label>
-                <select class=" input_ingresar" id="tipo_doc" required >
-                    
-                </select>
-                <label  for="num_doc">ingresa el numero de documento:</label>
-                <input type="" id="num_doc" placeholder="numero de documento" autocomplete="off" required>
-                
-                <div>
-                    <input type="checkbox" id="politicas">
-                    <label for="politicas">politicas de uso </label>
+    <main class=" contenedor fondo">
+        <section >
+            <div class="formulario">
+                <h1>Vamos a validar tus datos</h1>
+                <div >
+                    <form class="formulario" action="" novalidate>
+                        <label for="nombre">ingresa tu nombre: </label>
+                        <input type="text" name="nombre" id="nombre" placeholder="nombre" autocomplete="off" required>
+        
+                        <label for="apellido">ingresa tu apellido: </label>
+                        <input type="text" id="apellido" placeholder="apellido" autocomplete="off" required>
+        
+                        <label for="direc">direccion: </label>
+                        <input type="text" id="direc" placeholder="direccion" autocomplete="off" required>
+        
+                        <label for="tel">telefono: </label>
+                        <input type="number" id="tel" placeholder="telefono" autocomplete="off" required>
+        
+                        <label for="tel">Email: </label>
+                        <input type="email" id="email" placeholder="email" autocomplete="off" required>
+                        
+                        <label for="tipo_doc">Tipo de documento: </label>
+                        <select class=" input_ingresar" id="tipo_doc" required >
+                            
+                        </select>
+                        <label  for="num_doc">ingresa el numero de documento:</label>
+                        <input type="" id="num_doc" placeholder="numero de documento" autocomplete="off" required>
+                        
+                        <div>
+                            <input type="checkbox" id="politicas">
+                            <label for="politicas">politicas de uso </label>
+                        </div>
+                        <button type="submit" id="enviar">Enviar</button>
+                        
+                    </form>
+        
+                    <a  href="agregar_tipoDoc.html">Agregar doc</a>
                 </div>
-                <button type="submit" id="enviar">Enviar</button>
-                
-            </form>
+            </div>
+        </section>
+    
+        <section >
+            <div class="tabla">
+                <table  border="">
+                    <thead>
+                        <tr>
+                            <th>Nombre</th>
+                            <th>Apellido</th>
+                            <th>Direccion</th>
+                            <th>Telefono</th>
+                            <th>Email</th>
+                            <th>Tipo de documento</th>
+                            <th>numero de documento</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tabla">
+                        
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </main>
 
-            <a  href="agregar_tipoDoc.html">Agregar doc</a>
-        </div>
-    </section>
-
-    <section>
-        <table  border="">
-            <thead>
-                <tr>
-                    <th>Nombre</th>
-                    <th>Apellido</th>
-                    <th>Direccion</th>
-                    <th>Telefono</th>
-                    <th>Email</th>
-                    <th>Tipo de documento</th>
-                    <th>numero de documento</th>
-                </tr>
-            </thead>
-            <tbody id="tabla">
-                
-            </tbody>
-        </table>
-    </section>
+    <template id="tb_users">
+        <tr>
+            <td class="nombre"></td>
+            <td class="apellido"></td>
+            <td class="telefono"></td>
+            <td class="direccion"></td>
+            <td class="email"></td>
+            <td class="tipo"></td>
+            <td class="documento"></td>
+        </tr>
+    </template>
     <script src="app.js" type="module"></script>
 </body>
 </html>

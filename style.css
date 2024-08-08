@@ -5,8 +5,7 @@
 }
 
 form{
-    max-width: 450px;
-    width: 450px;
+
     margin: 0 auto;
     background-color: #f2f2f2;
     display: flex;
@@ -47,15 +46,33 @@ button:hover{
 
 
 
-/* 
 .contenedor{
     max-width: 1200px;
     margin: 0 auto;
 }
-
+    
+/* 
 .formulario{
     display: flex;
     flex-direction: column;
     width: 500px;
     gap: 15px;
 } */
+
+.fondo{
+    display: grid;
+    margin-top: 50px;
+    grid-template-areas: 
+    "formulario tabla";
+    grid-template-columns: 400px 1fr;
+    gap: 1rem;
+
+}
+
+.formulario{
+    grid-area: formulario;
+}
+
+.tabla{
+    grid-area: tabla;
+}
