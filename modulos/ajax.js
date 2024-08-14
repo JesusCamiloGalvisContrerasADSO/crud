@@ -4,26 +4,19 @@
 
   return usuarios
 
-  fetch(`http://localhost:3000/${url}`)
-    .then((response) => {
-      return response.json();
-    })
-    .then((users) => {
-      console.log(users);
-      users.forEach(element => {
-        let tr = document.createElement("tr");
-        element.forEach((name) => {
-          let td = document.createElement("td");
-          td.textContent = element.name;
-          $fragmento.appendChild(td);
 
-        });
-        tr.appendChild(td);
-      });
-      tabla.appendChild(tr);
-    });
 
     
 }
 
-export default solicitud
+export const enviar = async (endpoint, option) =>{
+  try {
+    let solicitud = await fetch(`http://localhost:3000/${endpoint}`,option)
+    let data = await solicitud.json();
+    return data
+  } catch (error) {
+    return error
+  }
+}
+
+export default solicitud;

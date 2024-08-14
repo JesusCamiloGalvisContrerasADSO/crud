@@ -70,15 +70,30 @@ fetch('http://localhost:3000/documentos')
 const listar = async () =>{
 
     let data = await solicitud('users')
+    const documentos = await solicitud('documentos')
+    
+
 
     data.forEach(element =>{
+
+        //aqui es un poco confuso pero se tiene en cuenta que es como una operacion ternaria
+        //documento.id === element.tipodoc ? documento.nombre : null
+        //la diferencia es que se coloca solo la condicion y al final el .nombre para llamarlo
+        let nombre  = documentos.find(documento=> documento.id === element.tipodoc).nombre
+
         tbusers.querySelector(".nombre").textContent = element.nombre
         tbusers.querySelector(".apellido").textContent = element.apellido
         tbusers.querySelector(".telefono").textContent = element.telefono
         tbusers.querySelector(".direccion").textContent = element.direccion
         tbusers.querySelector(".email").textContent = element.email
-        tbusers.querySelector(".tipo").textContent = element.tipodoc
+
+        // documentos.forEach(e => element.tipodoc == e.id ? tbusers.querySelector(".tipo").textContent = e.nombre : null)
+        tbusers.querySelector(".tipo").textContent = nombre
         tbusers.querySelector(".documento").textContent = element.numerodoc
+        
+        tbusers.querySelector(".modificar").setAttribute ("data-id", element.id)
+        tbusers.querySelector(".eliminar").setAttribute("data-id",element.id)
+
         
         const clone = document.importNode(tbusers, true);
 
@@ -87,6 +102,28 @@ const listar = async () =>{
     tbody.appendChild($fragmento)
     
 }
+
+const buscar = async (element) => {
+
+    // enviar(`users/${element.dataset.id}`,{
+    //     method: "PATCH",
+    //     headers:{
+    //         'Content-Type': 'application/json;charset=utf-8'
+    //     }
+    // })
+
+    let user = await solicitud(`users/${element.dataset.id}`)
+    nombre.value = user.nombre;
+    apellido.value = user.apellido
+    telefono.value = user.telefono
+    direccion.value = user.direccion
+    email.value = user.email
+    tipo_doc.value = user.tipodoc
+    documento.value = user.numerodoc
+
+}
+
+
 
 const crearfilas = (data) =>{
     const tr = tbody.insertRow(-1);
@@ -109,6 +146,15 @@ const crearfilas = (data) =>{
     tdDocumento.textContent = data.numerodoc;
 
 }
+
+document.addEventListener("click",e => {
+    if(e.target.matches(".modificar")){
+        enviar
+        // console.log(e.target)
+        buscar(e.target)
+    }
+})
+
 
 
 enviar.setAttribute('disabled', '');
