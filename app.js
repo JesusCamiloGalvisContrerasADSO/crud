@@ -4,7 +4,8 @@ import numero from "./modulos/modulo_numero.js";
 // import validar from "./modulos/modulo_validar.js";
 import remover from "./modulos/modulo_remover.js";
 import is_valid from "./modulos/is_valid.js";
-import solicitud from "./modulos/ajax.js";
+import {envia, solicitud} from "./modulos/ajax.js";
+// import { solicitud, envia } from "./modulos/ajax.js";
 
 
 
@@ -19,6 +20,7 @@ const documento = document.querySelector("#num_doc");
 const politicas = document.querySelector("#politicas");
 const enviar = document.querySelector("#enviar");
 const email = document.querySelector("#email");
+const id_user = document.querySelector("#id");
 const tbusers = document.querySelector("#tb_users").content;
 const $fragmento = document.createDocumentFragment();
 const tbody = document.querySelector("tbody");
@@ -105,25 +107,116 @@ const listar = async () =>{
 
 const buscar = async (element) => {
 
-    // enviar(`users/${element.dataset.id}`,{
-    //     method: "PATCH",
-    //     headers:{
-    //         'Content-Type': 'application/json;charset=utf-8'
-    //     }
-    // })
+    const data = await envia(`users/${element.dataset.id}`,{
+        method: "PATCH",
+        headers:{
+            'Content-Type': 'application/json; charset=utf-8'
+        }
+    });
 
-    let user = await solicitud(`users/${element.dataset.id}`)
-    nombre.value = user.nombre;
-    apellido.value = user.apellido
-    telefono.value = user.telefono
-    direccion.value = user.direccion
-    email.value = user.email
-    tipo_doc.value = user.tipodoc
-    documento.value = user.numerodoc
-
+    llenarformulario(data)
 }
 
 
+
+const save = (event) =>{
+
+    let responde = is_valid(event, "form [required]")
+    const data = {
+        nombre: nombre.value,
+        apellido: apellido.value,
+        direccion: direccion.value,
+        email: email.value,
+        telefono: telefono.value,
+        tipodoc: tipo_doc.value,
+        numerodoc: documento.value,
+    }
+
+    event.preventDefault();
+    if(responde){
+        if(id_user.value === ""){
+            console.log("se guardooooooo")
+            guardar(data)
+        }else{
+            actualizar(data)
+        }
+    }
+    return;
+    
+    console.log(responde)
+
+    
+    
+
+}
+
+const guardar = (data) =>{
+    console.log(data)
+    return
+    fetch('http://localhost:3000/users',{
+        method: 'POST',
+        body: JSON.stringify(data),
+        headers: {
+        'Content-Type': 'application/json;charset=utf-8'
+        }
+    })
+    .then((response)=>response.json())
+    .then((json) =>{
+        alert('sus datos fueron guardados correctamente')
+        limpiarform();
+
+        crearfilas(json)
+    })
+    .catch(() =>{
+        alert('error a cargar sus datos')
+    })
+}
+
+const actualizar = async (data) =>{
+    
+    const actual = await envia(`users/${id_user.value}`,{
+        method: 'PUT',
+        body: JSON.stringify(data),
+        headers:{
+            'Content-Type': 'application/json;charset=utf-8'
+        }
+    })
+    limpiarform()
+
+    console.log(actual)
+}
+
+const limpiarform = () =>{
+    id_user.value = ""
+    nombre.value = ""
+    apellido.value = ""
+    direccion.value = ""
+    telefono.value = "" 
+    email.value = ""
+    tipo_doc.value = ""
+    documento.value = ""
+    politicas.checked = false
+}
+
+
+const llenarformulario = (data) => {
+
+    const { id, nombre:primer_nombre, apellido:segundo_apellido, telefono:num_celular, direccion:direc_hogar,email:correo, tipodoc:tipoDeDoc, numerodoc } = data;
+
+    console.log(data)
+
+    id_user.value = id
+    nombre.value = primer_nombre;
+    apellido.value = segundo_apellido
+    telefono.value = num_celular
+    direccion.value = direc_hogar
+    email.value = correo
+    tipo_doc.value = tipoDeDoc
+    documento.value = numerodoc
+    politicas.checked = false
+
+    
+}
 
 const crearfilas = (data) =>{
     const tr = tbody.insertRow(-1);
@@ -150,6 +243,7 @@ const crearfilas = (data) =>{
 document.addEventListener("click",e => {
     if(e.target.matches(".modificar")){
         enviar
+        console.log(e.target)
         // console.log(e.target)
         buscar(e.target)
     }
@@ -175,48 +269,7 @@ addEventListener("DOMContentLoaded", (event) => {
 
 
 
-$formulario.addEventListener("submit", (event)=>{
-    let responde = is_valid(event, "form [required]")
-    console.log(responde)
-
-    const data = {
-        nombre: nombre.value,
-        apellido: apellido.value,
-        direccion: direccion.value,
-        email: email.value,
-        telefono: telefono.value,
-        tipodoc: tipo_doc.value,
-        numerodoc: documento.value,
-    }
-    if(responde){
-        fetch('http://localhost:3000/users',{
-            method: 'POST',
-            body: JSON.stringify(data),
-            headers: {
-            'Content-Type': 'application/json;charset=utf-8'
-            }
-        })
-        .then((response)=>response.json())
-        .then((json) =>{
-            alert('sus datos fueron guardados correctamente')
-            nombre.value = ""
-            apellido.value = ""
-            direccion.value = ""
-            telefono.value = "" 
-            email.value = ""
-            tipo_doc.value = ""
-            documento.value = ""
-            politicas.checked = false
-
-            crearfilas(json)
-        })
-        .catch(() =>{
-            alert('error a cargar sus datos')
-        })
-    }
-
-    
-})  
+$formulario.addEventListener("submit",save)  
 
 
 nombre.addEventListener("keyup", () => {

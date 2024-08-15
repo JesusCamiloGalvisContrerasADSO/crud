@@ -1,4 +1,4 @@
- const solicitud = async (url) =>{
+export const solicitud = async (url) =>{
   const json = await fetch(`http://localhost:3000/${url}`)
   const usuarios = await json.json()
 
@@ -9,7 +9,7 @@
     
 }
 
-export const enviar = async (endpoint, option) =>{
+export const envia = async (endpoint, option) =>{
   try {
     let solicitud = await fetch(`http://localhost:3000/${endpoint}`,option)
     let data = await solicitud.json();
@@ -19,4 +19,4 @@ export const enviar = async (endpoint, option) =>{
   }
 }
 
-export default solicitud;
+// export default solicitud;
