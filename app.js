@@ -83,6 +83,9 @@ const listar = async () =>{
         //la diferencia es que se coloca solo la condicion y al final el .nombre para llamarlo
         let nombre  = documentos.find(documento=> documento.id === element.tipodoc).nombre
 
+        // tbusers.querySelector("tr").setAttribute("id", `user_${element.id}`)
+        tbusers.querySelector("tr").id = `user_${element.id}`;
+
         tbusers.querySelector(".nombre").textContent = element.nombre
         tbusers.querySelector(".apellido").textContent = element.apellido
         tbusers.querySelector(".telefono").textContent = element.telefono
@@ -135,7 +138,7 @@ const save = (event) =>{
     event.preventDefault();
     if(responde){
         if(id_user.value === ""){
-            console.log("se guardooooooo")
+ 
             guardar(data)
         }else{
             actualizar(data)
@@ -152,7 +155,6 @@ const save = (event) =>{
 
 const guardar = (data) =>{
     console.log(data)
-    return
     fetch('http://localhost:3000/users',{
         method: 'POST',
         body: JSON.stringify(data),
@@ -182,8 +184,42 @@ const actualizar = async (data) =>{
         }
     })
     limpiarform()
+    editRow(actual)
+}
 
-    console.log(actual)
+const eliminar = async (a) =>{
+    const data = await envia(`users/${a.dataset.id}`,{
+        method: "PATCH",
+        headers:{
+            'Content-Type': 'application/json; charset=utf-8'
+        }
+    });
+    let resultado = window.confirm(`Estas seguro de eliminar a ${data.nombre}?`);
+    if (resultado === true) {
+        const eliminar = await envia(`users/${a.dataset.id}`,{
+            method: 'DELETE',
+        });
+        document.querySelector(`#user_${a.dataset.id}`).remove()
+    } 
+    
+}
+
+const editRow = async (data) => {
+
+    const documentos = await solicitud('documentos')
+    let nombreDoc  = documentos.find(documento=> documento.id === data.tipodoc).nombre
+
+    const tr = document.querySelector(`#user_${data.id}`);
+    tr.querySelector(".nombre").textContent = data.nombre;
+    tr.querySelector(".apellido").textContent = data.apellido;
+    tr.querySelector(".telefono").textContent = data.telefono;
+    tr.querySelector(".direccion").textContent = data.direccion;
+    tr.querySelector(".email").textContent = data.email;
+    tr.querySelector(".tipo").textContent = nombreDoc;
+    tr.querySelector(".documento").textContent = data.numerodoc;
+
+    console.log(tr)
+
 }
 
 const limpiarform = () =>{
@@ -246,6 +282,13 @@ document.addEventListener("click",e => {
         console.log(e.target)
         // console.log(e.target)
         buscar(e.target)
+    }
+})
+
+document.addEventListener("click",e =>{
+    if(e.target.matches(".eliminar")){
+        console.log(e.target)
+        eliminar(e.target);
     }
 })
 
