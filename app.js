@@ -69,14 +69,36 @@ fetch('http://localhost:3000/documentos')
 
 
 
-const listar = async () =>{
+const listar = async (page) =>{
 
-    let data = await solicitud('users')
+    const _page = page ? page : 1;
+    let data = await solicitud(`users?_page=${_page}&_per_page=12`)
     const documentos = await solicitud('documentos')
     
+    const nav = document.querySelector(".navegacion")
 
+    const first = data.first;
+    const prev = data.prev;
+    const next = data.next;
+    const last = data.last;
 
-    data.forEach(element =>{
+    if (next === null){
+        document.querySelector(".pagina").textContent = last;
+    }else{
+        document.querySelector(".pagina").textContent = next -1;
+    }
+    nav.querySelector(".first").disabled = prev ? false : true ;
+    nav.querySelector(".prev").disabled = prev ? false : true ;
+    nav.querySelector(".next").disabled = next ? false : true ;
+    nav.querySelector(".last").disabled = next ? false : true ;
+
+    nav.querySelector(".first").setAttribute("data-first",first);
+    nav.querySelector(".prev").setAttribute("data-prev",prev);
+    nav.querySelector(".next").setAttribute("data-next",next);
+    nav.querySelector(".last").setAttribute("data-last",last);
+    
+
+    data.data.forEach(element =>{
 
         //aqui es un poco confuso pero se tiene en cuenta que es como una operacion ternaria
         //documento.id === element.tipodoc ? documento.nombre : null
@@ -120,6 +142,14 @@ const buscar = async (element) => {
     llenarformulario(data)
 }
 
+const eliminartr = (element) =>{
+        const nodos = tbody;
+        while(nodos.firstChild){
+            nodos.removeChild(nodos.firstChild);
+        }
+        
+        listar(element)
+}
 
 
 const save = (event) =>{
@@ -188,18 +218,22 @@ const actualizar = async (data) =>{
 }
 
 const eliminar = async (a) =>{
-    const data = await envia(`users/${a.dataset.id}`,{
-        method: "PATCH",
-        headers:{
-            'Content-Type': 'application/json; charset=utf-8'
-        }
-    });
-    let resultado = window.confirm(`Estas seguro de eliminar a ${data.nombre}?`);
+    // const data = await envia(`users/${a.dataset.id}`,{
+    //     method: "PATCH",
+    //     headers:{
+    //         'Content-Type': 'application/json; charset=utf-8'
+    //     }
+    // });
+
+    let tr = document.querySelector(`#user_${a.dataset.id}`)
+    let nombreUser = tr.querySelector(".nombre").textContent
+    
+    let resultado = window.confirm(`Estas seguro de eliminar a ${nombreUser}?`);//${data.nombre}
     if (resultado === true) {
-        const eliminar = await envia(`users/${a.dataset.id}`,{
+        await envia(`users/${a.dataset.id}`,{
             method: 'DELETE',
         });
-        document.querySelector(`#user_${a.dataset.id}`).remove()
+        tr.remove()
     } 
     
 }
@@ -282,15 +316,28 @@ document.addEventListener("click",e => {
         console.log(e.target)
         // console.log(e.target)
         buscar(e.target)
+    }if(e.target.matches(".eliminar")){
+        console.log(e.target)
+        eliminar(e.target);
+    }if(e.target.matches(".first")){
+        const first = e.target.dataset.first
+        eliminartr(first)
+        
+    }if(e.target.matches(".prev")){
+        const prev = e.target.dataset.prev
+        eliminartr(prev)
+        
+    }if(e.target.matches(".next")){
+        const next = e.target.dataset.next
+        eliminartr(next)
+        
+    }if(e.target.matches(".last")){
+        const lats = e.target.dataset.last
+        eliminartr(lats)
     }
 })
 
-document.addEventListener("click",e =>{
-    if(e.target.matches(".eliminar")){
-        console.log(e.target)
-        eliminar(e.target);
-    }
-})
+
 
 
 
